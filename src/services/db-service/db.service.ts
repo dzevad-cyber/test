@@ -1,10 +1,10 @@
-import sequelize from '../../database/database.js';
+import { sequelize } from '../../database/database.js';
 
-export const connect = () => {
+export const dbConnect = () => {
   sequelize
     .authenticate()
     .then(() => {
-      console.log('Connection has been established successfully.');
+      console.log('DB connection successful');
     })
     .catch((err) => {
       console.error('Unable to connect to the database:', err);
