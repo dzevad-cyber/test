@@ -1,7 +1,20 @@
+import * as url from 'url';
+import path from 'path';
+import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
 
-export const sequelize = new Sequelize('test_sq', 'wslRoot', 'root', {
-  host: '172.26.64.1',
-  port: 3307,
-  dialect: 'mysql',
-});
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
+
+console.log('test ', process.env.DB_NAME);
+
+export const sequelize = new Sequelize(
+  process.env.DB_NAME ?? '',
+  process.env.DB_USER ?? '',
+  process.env.DB_PASS,
+  {
+    host: '172.28.208.1',
+    port: Number(process.env.DB_PORT),
+    dialect: 'mysql',
+  }
+);

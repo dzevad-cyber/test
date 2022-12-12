@@ -1,8 +1,15 @@
-import { User } from './models/user.model.js';
-import { dbConnect } from './services/db-service/db.service.js';
 import express from 'express';
+import * as url from 'url';
+import path from 'path';
+import dotenv from 'dotenv';
+
+import { dbConnect } from './services/db-service/db.service.js';
 import mainRouter from './api/api-v1/api.v1.js';
 import morgan from 'morgan';
+import { errorHandler } from './services/error-service/error.handler.service.js';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
 dbConnect();
 
@@ -15,15 +22,7 @@ app.use(morgan('dev'));
 // routes
 app.use(mainRouter);
 
-app.use((err, req, res, next) => {
-  res.status(500).json({
-    status: 'fail',
-    data: {
-      msg: 'Server error',
-      error: err,
-    },
-  });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
