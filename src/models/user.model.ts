@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Op } from 'sequelize';
 
 import { sequelize } from '../database/database.js';
 
@@ -30,5 +30,13 @@ export const User = sequelize.define(
       },
     },
     // other model options
+    scopes: {
+      includeTimestamps: {
+        include: ['created_at', 'updated_at'],
+      },
+      age: {
+        where: { age: { [Op.gt]: 20 } },
+      },
+    },
   }
 );

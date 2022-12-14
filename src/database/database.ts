@@ -11,7 +11,7 @@ export const sequelize = new Sequelize(
   process.env.DB_USER ?? '',
   process.env.DB_PASS,
   {
-    host: '172.28.208.1',
+    host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     dialect: 'mysql',
   }
